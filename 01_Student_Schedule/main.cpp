@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     //QString test = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-    QString configPath = QApplication::applicationDirPath() + "/config.ini";
+    QString configPath =":/config.ini";
 
     DatabaseManager db(configPath);
 
