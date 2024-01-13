@@ -6,20 +6,20 @@
 #include <QVector>
 #include <QPair>
 
-#define TUSER "user"
-
-
 class DatabaseManager
 {
 public:
     DatabaseManager();
     DatabaseManager(const QString& configPath);
-    bool loginUser(const QString& email, const QString& password);
+    QPair<bool, QString> loginUser(const QString& email, const QString& password);
     QPair<bool, QString> registerUser(const QString& email, const QString& password, const QString& nameSurname);
-    QVector<QString> getTableInfo(QString tableName);    
+    void logOut();
+    QPair<bool, QString> addLesson();
+    QString getUserName();
 private:
     QSqlDatabase db;
     QString userEmail;
+    QString userName;
 
     QString hashPassword(const QString& password);
 };

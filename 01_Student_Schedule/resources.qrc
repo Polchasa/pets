@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>Roboto-Light.ttf</file>
         <file>config.ini</file>
+        <file>icon.png</file>
     </qresource>
 </RCC>

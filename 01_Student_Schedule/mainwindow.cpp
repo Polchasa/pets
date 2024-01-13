@@ -1,11 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "globals.h"
 
 #include <QButtonGroup>
 #include <QFontDatabase>
 #include <QRegularExpression>
 
-#include "styles.cpp"
+#include "styles.h"
 
 MainWindow::MainWindow(DatabaseManager* mdb, QWidget *parent)
     : QMainWindow(parent)
@@ -13,10 +14,33 @@ MainWindow::MainWindow(DatabaseManager* mdb, QWidget *parent)
     , db(mdb)
 {
     ui->setupUi(this);
-    setUIStyles();
     configureUI();
+    setUIStyles();
+    this->clearFocus();
+    secondWindow = new SecondWindow(db, this);
+
+    #ifdef DEBUG
+    ui->logEmail->setText("polchasa@live.ru");
+    ui->logPass->setText("PolchasaPolchasa1");
+    #endif
 }
 
+//Обработка нажатия клавиши энтер
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
+        if(ui->tabWidget->currentIndex() == 0) on_logIn_clicked();
+        else on_signIn_clicked();
+    } else {
+        QMainWindow::keyPressEvent(event);
+    }
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+//Пременение стилей для окна
 void MainWindow::setUIStyles() {
     ui->horizontalLayoutWidget->setStyleSheet(setTopButtonsStyles());
     ui->tabWidget->setStyleSheet(setTabWidgetStyle());
@@ -41,12 +65,9 @@ void MainWindow::setUIStyles() {
     ui->signStatusLabel->setStyleSheet(setLabelGoodStyle());
 }
 
+//Конфигурирование окна, задача базовых значений для элементов
 void MainWindow::configureUI() {
-    //подключение шрифта из файла ресурсов
-    //но для использования в проекте он будет называтья не по имени файла
-    //для того чтобы точно знать его название, можно в винде открыть файл шрифта
-    //и посмотреть там его название
-    QFontDatabase::addApplicationFont(":/Roboto-Light.ttf");
+
 
     ui->tabWidget->setCurrentIndex(0); //задаем номер текущего таба
 
@@ -58,43 +79,34 @@ void MainWindow::configureUI() {
     connect(headButtons, SIGNAL(idClicked(int)), ui->tabWidget, SLOT(setCurrentIndex(int))); //связываем группу кнопок с табами
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-
 void MainWindow::on_logIn_clicked()
 {
+    QString email = ui->logEmail->text();
+    QString pass = ui->logPass->text();
     static const QRegularExpression rEmail(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
     static const QRegularExpression rPass(R"(^\S+$)");
 
-    QRegularExpressionMatch matchEmail = rEmail.match(ui->logEmail->text());
-    QRegularExpressionMatch matchPas   = rPass.match(ui->logPass->text());
+    QRegularExpressionMatch matchEmail = rEmail.match(email);
+    QRegularExpressionMatch matchPas   = rPass.match(pass);
     if(!(matchEmail.hasMatch() && matchPas.hasMatch())) {
-        ui->logStatusLabel->setText("Введены некорректные данные");
+        ui->logStatusLabel->setText("Введенные данные некорректны.");
         ui->logStatusLabel->setStyleSheet(setLabelBadStyle());
         return;
     }
-    QString email = ui->logEmail->text();
-    QString password = ui->logPass->text();
-    if(db->loginUser(email, password)) {
-        ui->logStatusLabel->setText("Вход выполнен успешно!");
+
+    auto res = db->loginUser(email, pass);
+    ui->logStatusLabel->setText(res.second);
+    if(res.first) {
         ui->logStatusLabel->setStyleSheet(setLabelGoodStyle());
         ui->logEmail->clear();
         ui->logPass->clear();
-    } else {
-        ui->logStatusLabel->setText("Неверный E-mail или пароль!");
-        ui->logStatusLabel->setStyleSheet(setLabelBadStyle());
-    }
-}
 
-/*
- * static const QRegularExpression rEmail(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
- * static const QRegularExpression rLogPass(R"(^\S+$)");
- * static const QRegularExpression rSignPass(R"(^.{6,}$)");
- * static const QRegularExpression rNameSurnamePass(R"(^[A-Za-zА-Яа-я]+ [A-Za-zА-Яа-я]+$)");
-*/
+        secondWindow->extendetShow();
+        ui->logPass->clearFocus();
+        this->clearFocus();
+        this->hide(); // скрываем окно логина
+    } else ui->signStatusLabel->setStyleSheet(setLabelBadStyle());
+}
 
 void MainWindow::on_signIn_clicked()
 {
@@ -122,7 +134,14 @@ void MainWindow::on_signIn_clicked()
         ui->signEmail->clear();
         ui->signPass->clear();
         ui->signName->clear();
-    }
-    else ui->signStatusLabel->setStyleSheet(setLabelBadStyle());
+    } else ui->signStatusLabel->setStyleSheet(setLabelBadStyle());
+}
+
+void MainWindow::clearShow() {
+    ui->tabWidget->setCurrentIndex(0);
+    ui->headButton_1->setChecked(true);
+    ui->logStatusLabel->clear();
+    ui->signStatusLabel->clear();
+    this->show();
 }
 

@@ -31,6 +31,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
     border-radius: 25px; 
@@ -135,11 +139,14 @@
       <height>470</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <property name="minimumSize">
@@ -160,6 +167,11 @@
         <height>40</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
       </property>
@@ -178,6 +190,11 @@
         <width>325</width>
         <height>40</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
       </property>
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
@@ -200,6 +217,14 @@
         <width>325</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::TabFocus</enum>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -242,8 +267,13 @@
            <height>40</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+          </font>
+         </property>
          <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
+          <enum>Qt::TabFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -277,6 +307,11 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
@@ -300,6 +335,11 @@
         <width>325</width>
         <height>40</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
       </property>
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
@@ -326,6 +366,11 @@
         <height>40</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
       </property>
@@ -344,6 +389,14 @@
         <width>325</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::TabFocus</enum>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -386,8 +439,13 @@
            <height>40</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+          </font>
+         </property>
          <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
+          <enum>Qt::TabFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -421,6 +479,11 @@
         <height>40</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
       </property>
@@ -439,6 +502,11 @@
         <width>325</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -461,6 +529,19 @@
    <zorder>horizontalLayoutWidget</zorder>
   </widget>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>logInfoLabel</tabstop>
+  <tabstop>logEmail</tabstop>
+  <tabstop>logPass</tabstop>
+  <tabstop>logIn</tabstop>
+  <tabstop>signInfoLabel</tabstop>
+  <tabstop>signName</tabstop>
+  <tabstop>signEmail</tabstop>
+  <tabstop>signPass</tabstop>
+  <tabstop>signIn</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

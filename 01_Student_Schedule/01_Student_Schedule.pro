@@ -17,16 +17,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     databasemanager.cpp \
+    lessonadder.cpp \
     main.cpp \
     mainwindow.cpp \
+    secondwindow.cpp \
     styles.cpp
 
 HEADERS += \
     databasemanager.h \
-    mainwindow.h
+    globals.h \
+    lessonadder.h \
+    mainwindow.h \
+    secondwindow.h \
+    styles.h
 
 FORMS += \
-    mainwindow.ui
+    lessonadder.ui \
+    mainwindow.ui \
+    secondwindow.ui
 
 TARGET_PATH = $$OUT_PWD/$$QMAKE_TARGET
 message(Target path: $$TARGET_PATH)

@@ -4,7 +4,10 @@
 #include <QMainWindow>
 #include <QVector>
 #include <QButtonGroup>
+#include <QKeyEvent>
 #include "databasemanager.h"
+#include "secondwindow.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +20,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(DatabaseManager* mdb, QWidget *parent = nullptr);
     ~MainWindow();
+    void clearShow();
 
 private slots:
 
@@ -28,8 +32,12 @@ private:
     Ui::MainWindow* ui;
     DatabaseManager* db;
     QButtonGroup* headButtons;
+    SecondWindow *secondWindow;
 
     void setUIStyles();
     void configureUI();
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 #endif // MAINWINDOW_H
